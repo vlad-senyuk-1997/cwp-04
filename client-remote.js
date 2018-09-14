@@ -21,6 +21,7 @@ client.on('data', function(data) {
 
     if (data === ACK_STRING){
         if (urls.length > 0){
+            urls[2] = "COPY";
             client.write(JSON.stringify(urls));
         }
     }else if (data === DEC_STRING){
