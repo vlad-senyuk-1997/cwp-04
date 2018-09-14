@@ -8,6 +8,7 @@ const ACK_STRING = "ASC";
 const DEC_STRING = "DEC";
 
 const urls = [process.argv[2], process.argv[3]];
+const KEY = "KEY_FOR_ENCODE";
 
 client.setEncoding('utf8');
 
@@ -26,6 +27,10 @@ client.on('data', function(data) {
         }
     }else if (data === DEC_STRING){
         client.destroy();
+    }else if (data === "COPY-OK"){
+        urls[2] = "ENCODE";
+        urls[3] = KEY;
+        client.write(JSON.stringify(urls));
     }
 });
 
