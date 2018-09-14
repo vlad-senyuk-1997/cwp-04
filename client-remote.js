@@ -27,10 +27,16 @@ client.on('data', function(data) {
         }
     }else if (data === DEC_STRING){
         client.destroy();
-    }else if (data === "COPY-OK"){
+    }else if (data.indexOf("COPY") > -1){
         urls[2] = "ENCODE";
         urls[3] = KEY;
         client.write(JSON.stringify(urls));
+    }else if (data.indexOf("ENCODE") > -1){
+        urls[2] = "UNDO";
+        urls[3] = KEY;
+        client.write(JSON.stringify(urls));
+    }else{
+        client.destroy();
     }
 });
 
