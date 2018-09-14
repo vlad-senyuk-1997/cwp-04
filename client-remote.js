@@ -7,6 +7,8 @@ const FIRST_REQUEST_STRING = "REMOTE";
 const ACK_STRING = "ASC";
 const DEC_STRING = "DEC";
 
+const urls = [process.argv[2], process.argv[3]];
+
 client.setEncoding('utf8');
 
 client.connect(port, function() {
@@ -16,7 +18,14 @@ client.connect(port, function() {
 
 client.on('data', function(data) {
     console.log(data);
-    client.destroy();
+
+    if (data === ACK_STRING){
+        if (urls.length > 0){
+            client.write(JSON.stringify(urls));
+        }
+    }else if (data === DEC_STRING){
+        client.destroy();
+    }
 });
 
 client.on('close', function() {
